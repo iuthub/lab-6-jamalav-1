@@ -3,18 +3,24 @@
 	$pattern="";
 	$text="";
 	$replaceText="";
-
+	$replacedText="";
+	$TextWithoutSpaces="";
+	$nonDigit="";
 	$match="Not checked yet.";
 
 if ($_SERVER["REQUEST_METHOD"]=="POST") {
 	$pattern=$_POST["pattern"];
 	$text=$_POST["text"];
+	$replaceText=$_POST["replaceText"];
+	$replacedText=preg_replace($pattern, $replaceText, $text);
 
 	if(preg_match($pattern, $text)) {
 						$match="Match!";
 					} else {
 						$match="Does not match!";
 					}
+	$TextWithoutSpaces=preg_replace("/\s/", "", $text);
+	$nonDigit=preg_replace("/\D/", "", $text);
 }
 
 ?>
@@ -40,7 +46,16 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 
 			<dt>Output Text</dt>
 			<dd><?=	$match ?></dd>
-
+			
+			<dt>Replaced Text</dt>
+			<dd><code><?= $replacedText ?></code></dd>
+			
+			<dt>Text Without spaces</dt>
+			<dd><code><?= $TextWithoutSpaces ?></code></dd>	
+			
+			<dt>Text Without nondigits</dt>
+			<dd><code><?= $nonDigit ?></code></dd>
+			
 			<dt>&nbsp;</dt>
 			<dd><input type="submit" value="Check"></dd>
 		</dl>
